@@ -1,0 +1,9 @@
+# Maxfiy va o'zgaruvchan fayllar GitHub'ga YUKLANMAYDI
+token.txt
+.env
+data.json
+data.tmp
+*.broken
+__pycache__/
+*.pyc
+venv/
