@@ -32,8 +32,8 @@ BASE_DIR = Path(__file__).parent
 
 def _load_token():
     """Token kodda saqlanmaydi (GitHub'ga tushib qolmasligi uchun):
-    1) BOT_TOKEN muhit o'zgaruvchisi (hosting), 2) app.py yonidagi token.txt (kompyuteringiz)."""
-    t = os.getenv("BOT_TOKEN")
+    1) BOT_TOKEN muhit o'zgaruvchisi (hosting), 2) app.py yonidagi token.txt (FPS.ms yoki kompyuteringiz)."""
+    t = os.getenv("BOT_TOKEN") or os.getenv("TELEGRAM_BOT_TOKEN")  # FadeHost: TELEGRAM_BOT_TOKEN
     if t:
         return t.strip()
     f = BASE_DIR / "token.txt"
@@ -42,7 +42,9 @@ def _load_token():
 
 TOKEN = _load_token()
 ADMIN_ID = int(os.getenv("ADMIN_ID") or 7044084668)
-DB_FILE = Path(os.getenv("DATA_DIR") or BASE_DIR) / "data.json"  # hostingda DATA_DIR=/data (doimiy disk)
+# Ma'lumotlar papkasi: DATA_DIR, bo'lmasa /data (hosting doimiy diski, bor bo'lsa), bo'lmasa kod yonida.
+_data_dir = os.getenv("DATA_DIR") or ("/data" if os.path.isdir("/data") else "")
+DB_FILE = Path(_data_dir or BASE_DIR) / "data.json"
 DB_FILE.parent.mkdir(parents=True, exist_ok=True)
 BOT_USERNAME = ""
 
